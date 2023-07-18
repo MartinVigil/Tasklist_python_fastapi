@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Tareas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            width: 60%;
+            max-width: 500px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            background-color: #fff;
+        }
+        .task-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .task-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .task-text {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+        .delete-btn {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .update-btn {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .add-form {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .add-input {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        .add-btn {
+            background-color: #2ecc71;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        h1 {
+            text-align: center;
+        }
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de Tareas</h1>
+        <h2>{{ user }}</h2>
+        <ul class="task-list">
+            {% for task in tasks %}
+                <li class="task-item">
+                    <span class="task-text">{{ task.task }}</span>
+                    <form action="{{ url_for('delete_task', task_id=task.id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta tarea?')">
+                        <button class="delete-btn" type="submit">Eliminar</button>
+                    </form>
+                    <form action="{{ url_for('update_task', task_id=task.id) }}" method="POST">
+                        <input class="update-input" type="text" name="new_task" placeholder="Actualizar tarea" required>
+                        <button class="update-btn" type="submit">Actualizar</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+        <form action="{{ url_for('add_task') }}" method="POST" class="add-form">
+            <input class="add-input" type="text" name="task" placeholder="Nueva tarea" required>
+            <button class="add-btn" type="submit">Agregar Tarea</button>
+        </form>
+    </div>
+</body>
+</html>
+
+
